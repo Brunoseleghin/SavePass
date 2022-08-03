@@ -19,9 +19,9 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 
 interface FormData {
-  service_name: string;
-  email: string;
-  password: string;
+  service_name?: string;
+  email?: string;
+  password?: string;
 }
 
 const schema = Yup.object().shape({
@@ -42,6 +42,7 @@ export function RegisterLoginData() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: {
       errors
     }
@@ -57,7 +58,19 @@ export function RegisterLoginData() {
 
     const dataKey = '@savepass:logins';
 
-    // Save data on AsyncStorage and navigate to 'Home' screen
+    try {
+      const collection = await AsyncStorage.getItem(dataKey);
+      const currentCollection = collection ? JSON.parse(collection) : [];
+      const collectionFormatted = [...currentCollection, newLoginData];
+
+      await AsyncStorage.setItem(dataKey, JSON.stringify(collectionFormatted));
+
+      reset();
+      navigate('Home');
+    } catch (error: any) {
+      console.log(error);
+      Alert.alert("Não foi possível salvar");
+    }
   }
 
   return (
@@ -73,22 +86,16 @@ export function RegisterLoginData() {
             testID="service-name-input"
             title="Nome do serviço"
             name="service_name"
-            error={
-              // Replace here with real content
-              'Has error ? show error message'
-            }
             control={control}
             autoCapitalize="sentences"
             autoCorrect
+            error={errors.service_name && (errors.service_name as any).message}
           />
           <Input
             testID="email-input"
             title="E-mail ou usuário"
             name="email"
-            error={
-              // Replace here with real content
-              'Has error ? show error message'
-            }
+            error={errors.email && (errors.email as any).message}
             control={control}
             autoCorrect={false}
             autoCapitalize="none"
@@ -98,10 +105,7 @@ export function RegisterLoginData() {
             testID="password-input"
             title="Senha"
             name="password"
-            error={
-              // Replace here with real content
-              'Has error ? show error message'
-            }
+            error={errors.password && (errors.password as any).message}
             control={control}
             secureTextEntry
           />
