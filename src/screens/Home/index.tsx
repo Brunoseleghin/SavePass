@@ -56,11 +56,20 @@ export function Home() {
   }
 
   function handleEditLoginData(id: string) {
-
+    console.log(id);
   }
 
-  function handleRemoveLoginData(id: string) {
+  async function handleRemoveLoginData(id: string) {
+    const dataKey = '@savepass:logins';
+    const collectionFiltered = data.filter(data => data.id !== id);
 
+    try {
+      await AsyncStorage.setItem(dataKey, JSON.stringify(collectionFiltered));
+      setData(collectionFiltered);
+      setSearchListData(collectionFiltered);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   useFocusEffect(useCallback(() => {
