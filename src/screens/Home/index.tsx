@@ -55,6 +55,14 @@ export function Home() {
     setSearchText(text);
   }
 
+  function handleEditLoginData(id: string) {
+
+  }
+
+  function handleRemoveLoginData(id: string) {
+
+  }
+
   useFocusEffect(useCallback(() => {
     loadData();
   }, []));
@@ -74,7 +82,6 @@ export function Home() {
           value={searchText}
           returnKeyType="search"
           onSubmitEditing={handleFilterLoginData}
-
           onSearchButtonPress={handleFilterLoginData}
         />
 
@@ -96,6 +103,8 @@ export function Home() {
               service_name={loginData.service_name}
               email={loginData.email}
               password={loginData.password}
+              onPressEdit={() => handleEditLoginData(loginData.id)}
+              onPressRemove={() => handleRemoveLoginData(loginData.id)}
             />
           }}
         />

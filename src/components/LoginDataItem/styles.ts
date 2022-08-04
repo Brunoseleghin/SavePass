@@ -16,6 +16,13 @@ export const Container = styled(LinearGradient).attrs({
   margin-bottom: 8px;
 `;
 
+export const Card = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const ShowPasswordButton = styled.TouchableOpacity``;
 
 export const Icon = styled(Feather).attrs({
@@ -26,7 +33,7 @@ export const Icon = styled(Feather).attrs({
 `;
 
 export const PassData = styled.View`
-  max-width: 243px;
+  width: 90%;
 `;
 
 export const Title = styled.Text`
@@ -43,7 +50,7 @@ export const Password = styled.Text`
 `;
 
 export const LoginData = styled.View`
-  max-width: 243px;
+  width: 90%;
 `;
 
 export const BoldTitle = styled.Text`
@@ -58,3 +65,16 @@ export const Email = styled.Text`
   font-size: ${RFValue(13)}px;
   color: #888D97;
 `;
+
+export const WrapperButton = styled.View`
+`;
+
+export const EditButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.5
+})`
+  margin-bottom: 10px;
+`;
+
+export const RemoveButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.5
+})``;
