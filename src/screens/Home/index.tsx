@@ -65,9 +65,8 @@ export function Home() {
     setSearchText(text);
   }
 
-  function handleEditLoginData(id: string) {
-    console.log(id);
-    navigate('EditLoginData');
+  function handleEditLoginData(loginData: any) {
+    navigate('EditLoginData', loginData);
   }
 
   async function handleRemoveLoginData(id: string) {
@@ -124,7 +123,7 @@ export function Home() {
               service_name={loginData.service_name}
               email={loginData.email}
               password={loginData.password}
-              onPressEdit={() => handleEditLoginData(loginData.id)}
+              onPressEdit={() => handleEditLoginData(loginData)}
               onPressRemove={() => handleRemoveLoginData(loginData.id)}
             />
           }}

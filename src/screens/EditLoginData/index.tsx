@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RFValue } from 'react-native-responsive-fontsize';
-import uuid from 'react-native-uuid';
 
 import { Container, Form } from './styles';
 import { Input } from '../../components/Form/Input';
@@ -15,9 +14,16 @@ import { Button } from '../../components/Form/Button';
 import { Header } from '../../components/Header';
 
 interface FormData {
+  id?: string;
   service_name?: string;
   email?: string;
   password?: string;
+}
+
+interface RouteProps {
+  route: {
+    params: FormData;
+  }
 }
 
 const schema = Yup.object().shape({
@@ -33,7 +39,7 @@ type RootStackParamList = {
 
 type NavigationProps = StackNavigationProp<RootStackParamList, 'EditLoginData'>;
 
-export function EditLoginData() {
+export function EditLoginData({ route }: RouteProps) {
   const { navigate } = useNavigation<NavigationProps>();
   const {
     control,
@@ -42,13 +48,18 @@ export function EditLoginData() {
     formState: {
       errors
     }
-  } = useForm({
+  } = useForm<any>({
+    defaultValues: {
+      id: route.params.id,
+      service_name: route.params.service_name,
+      email: route.params.email,
+      password: route.params.password
+    },
     resolver: yupResolver(schema)
   });
 
   async function handleEdit(formData: FormData) {
     const newLoginData = {
-      id: String(uuid.v4()),
       ...formData
     }
 
@@ -57,11 +68,17 @@ export function EditLoginData() {
     try {
       const collection = await AsyncStorage.getItem(dataKey);
       const currentCollection = collection ? JSON.parse(collection) : [];
-      const collectionFormatted = [...currentCollection, newLoginData];
 
-      await AsyncStorage.setItem(dataKey, JSON.stringify(collectionFormatted));
+      currentCollection.find((collection: FormData) => {
+        if (collection.id === newLoginData.id) {
+          collection.service_name = newLoginData.service_name;
+          collection.email = newLoginData.email;
+          collection.password = newLoginData.password;
+        }
+      });
 
-      reset();
+      await AsyncStorage.setItem(dataKey, JSON.stringify(currentCollection));
+
       navigate('Home');
     } catch (error: any) {
       console.log(error);
