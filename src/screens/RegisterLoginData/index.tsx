@@ -38,7 +38,7 @@ type RootStackParamList = {
 type NavigationProps = StackNavigationProp<RootStackParamList, 'RegisterLoginData'>;
 
 export function RegisterLoginData() {
-  const { navigate } = useNavigation<NavigationProps>()
+  const { navigate } = useNavigation<NavigationProps>();
   const {
     control,
     handleSubmit,
@@ -79,7 +79,9 @@ export function RegisterLoginData() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       enabled
     >
-      <Header />
+      <Header
+        title='Cadastro de login'
+      />
       <Container>
         <Form>
           <Input
