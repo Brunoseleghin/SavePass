@@ -21,7 +21,8 @@ interface HeaderProps {
   user?: {
     name: string;
     avatar_url: string;
-  }
+  },
+  title: string;
 }
 
 type RootStackParamList = {
@@ -31,7 +32,7 @@ type RootStackParamList = {
 
 type NavigationProps = StackNavigationProp<RootStackParamList>;
 
-export function Header({ user }: HeaderProps) {
+export function Header({ user, title }: HeaderProps) {
   const { navigate, goBack } = useNavigation<NavigationProps>();
 
   function handleAddPass() {
@@ -58,7 +59,7 @@ export function Header({ user }: HeaderProps) {
 
             <TextContainer>
               <HelloMessage>
-                Olá, <BoldText>{user.name}</BoldText>
+                {title} <BoldText>{user.name}</BoldText>
               </HelloMessage>
 
               <SecondaryMessage>
@@ -85,7 +86,7 @@ export function Header({ user }: HeaderProps) {
             />
           </BackButton>
 
-          <Title>Cadastro de senha</Title>
+          <Title>{title}</Title>
         </>
       )}
     </Container>
