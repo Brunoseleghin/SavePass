@@ -26,7 +26,7 @@ interface FormData {
 
 const schema = Yup.object().shape({
   service_name: Yup.string().required('Nome do serviço é obrigatório!'),
-  email: Yup.string().email('Não é um email válido').required('Email é obrigatório!'),
+  email: Yup.string().required('Email é obrigatório!'),
   password: Yup.string().required('Senha é obrigatória!'),
 })
 
@@ -99,7 +99,6 @@ export function RegisterLoginData() {
             control={control}
             autoCorrect={false}
             autoCapitalize="none"
-            keyboardType="email-address"
           />
           <Input
             testID="password-input"
