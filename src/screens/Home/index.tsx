@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 import { Header } from '../../components/Header';
 import { SearchBar } from '../../components/SearchBar';
@@ -14,6 +14,8 @@ import {
   LoginList,
 } from './styles';
 
+import { StackNavigationProp } from '@react-navigation/stack';
+
 interface LoginDataProps {
   id: string;
   service_name: string;
@@ -23,7 +25,15 @@ interface LoginDataProps {
 
 type LoginListDataProps = LoginDataProps[];
 
+type RootStackParamList = {
+  Home: undefined;
+  EditLoginData: undefined;
+};
+
+type NavigationProps = StackNavigationProp<RootStackParamList, 'Home'>;
+
 export function Home() {
+  const { navigate } = useNavigation<NavigationProps>();
   const [searchText, setSearchText] = useState('');
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
@@ -57,6 +67,7 @@ export function Home() {
 
   function handleEditLoginData(id: string) {
     console.log(id);
+    navigate('EditLoginData');
   }
 
   async function handleRemoveLoginData(id: string) {
@@ -79,6 +90,7 @@ export function Home() {
   return (
     <>
       <Header
+        title='Olá,'
         user={{
           name: 'Rocketseat',
           avatar_url: 'https://i.ibb.co/ZmFHZDM/rocketseat.jpg'
