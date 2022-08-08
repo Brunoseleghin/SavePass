@@ -9,8 +9,29 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppRoutes } from './src/routes/app.routes';
+import { SignIn } from './src/screens/SignIn';
+
+const CustomStatusBar = (
+  {
+    backgroundColor
+  }: any
+) => {
+  const insets = useSafeAreaInsets();
+
+  return (
+    <View style={{ height: insets.top, backgroundColor }} >
+      <StatusBar
+        animated={true}
+        backgroundColor={backgroundColor}
+        barStyle='light-content'
+        translucent
+      />
+    </View>
+  );
+}
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -45,20 +66,19 @@ export default function App() {
   }
 
   return (
-    <View
+    <SafeAreaProvider
       onLayout={onLayoutRootView}
       style={{
         flex: 1
       }}
     >
       <NavigationContainer>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="transparent"
-          translucent
-        />
-        <AppRoutes />
+        <CustomStatusBar backgroundColor='#1967FB' />
+
+        <SignIn />
+
+        {/*<AppRoutes />*/}
       </NavigationContainer>
-    </View>
+    </SafeAreaProvider>
   );
 }
