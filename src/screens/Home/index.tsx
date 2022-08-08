@@ -97,7 +97,7 @@ export function Home() {
       />
       <Container>
         <SearchBar
-          placeholder="Qual senha você procura?"
+          placeholder="Qual login você procura?"
           onChangeText={handleChangeInputText}
           value={searchText}
           returnKeyType="search"
@@ -106,7 +106,7 @@ export function Home() {
         />
 
         <Metadata>
-          <Title>Suas senhas</Title>
+          <Title>Seus Logins</Title>
           <TotalPassCount>
             {searchListData.length
               ? `${`${searchListData.length}`.padStart(2, '0')} ao total`
