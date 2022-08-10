@@ -21,7 +21,7 @@ export const ImageContainer = styled.View`
   align-items: center;
 
   padding: ${RFValue(16)}px;
-  border-color: #F0F2F5;
+  border-color: #FFBC00;
   border-right-width: 1px;
 `;
 
