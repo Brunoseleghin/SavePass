@@ -13,6 +13,7 @@ import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-cont
 
 import { AppRoutes } from './src/routes/app.routes';
 import { SignIn } from './src/screens/SignIn';
+import { AuthProvider } from './src/hooks/auth';
 
 const CustomStatusBar = (
   {
@@ -75,9 +76,9 @@ export default function App() {
       <NavigationContainer>
         <CustomStatusBar backgroundColor='#1967FB' />
 
-        <SignIn />
-
-        {/*<AppRoutes />*/}
+        <AuthProvider>
+          <SignIn />
+        </AuthProvider>
       </NavigationContainer>
     </SafeAreaProvider>
   );
