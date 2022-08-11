@@ -10,10 +10,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ThemeProvider } from 'styled-components';
 
 import { AppRoutes } from './src/routes/app.routes';
 import { SignIn } from './src/screens/SignIn';
 import { AuthProvider } from './src/hooks/auth';
+import theme from './src/global/styles/theme';
 
 const CustomStatusBar = (
   {
@@ -74,11 +76,12 @@ export default function App() {
       }}
     >
       <NavigationContainer>
-        <CustomStatusBar backgroundColor='#1967FB' />
-
-        <AuthProvider>
-          <SignIn />
-        </AuthProvider>
+        <CustomStatusBar backgroundColor={theme.colors.primary} />
+        <ThemeProvider theme={theme}>
+          <AuthProvider>
+            <SignIn />
+          </AuthProvider>
+        </ThemeProvider>
       </NavigationContainer>
     </SafeAreaProvider>
   );
