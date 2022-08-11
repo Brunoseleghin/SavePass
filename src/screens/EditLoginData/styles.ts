@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #F2F3F5;
+  background-color: ${({ theme }) => theme.colors.shape};
   padding: 0 ${RFValue(24)}px;
 `;
 

@@ -12,7 +12,7 @@ interface LoginListDataProps {
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #F2F3F5;
+  background-color: ${({ theme }) => theme.colors.shape};
   padding: 0 24px;
 `;
 
@@ -26,14 +26,14 @@ export const Metadata = styled.View`
 
 export const Title = styled.Text`
   font-size: ${RFValue(20)}px;
-  font-family: 'Rubik_500Medium';
-  color: #3D434D;
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.blue_gray};
 `;
 
 export const TotalPassCount = styled.Text`
   font-size: ${RFValue(13)}px;
-  font-family: 'Rubik_400Regular';
-  color: #888D97;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.gray};
 `;
 
 
