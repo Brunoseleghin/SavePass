@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextInputProps } from 'react-native';
+import { useTheme } from 'styled-components';
 
 import {
   Container,
@@ -17,11 +18,14 @@ export function SearchBar({
   onSearchButtonPress,
   ...rest
 }: SearchBarProps) {
+
+  const theme = useTheme();
+
   return (
     <Container>
       <Input
         {...rest}
-        placeholderTextColor='#888D97'
+        placeholderTextColor={theme.colors.grey}
       />
 
       <Button onPress={onSearchButtonPress} testID="search-button">

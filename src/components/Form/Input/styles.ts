@@ -8,16 +8,16 @@ export const Container = styled.View`
 `;
 
 export const Label = styled.Text`
-  font-family: 'Rubik_400Regular';
+  font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(15)}px;
-  color: #888D97;
+  color: ${({ theme }) => theme.colors.gray};
   margin-bottom: 7px;
 `;
 
 export const Error = styled.Text`
-  color: #E83F5B;
+  color: ${({ theme }) => theme.colors.error};
   margin-bottom: 4px;
-  font-family: 'Rubik_300Light';
+  font-family: ${({ theme }) => theme.fonts.light};
   font-size: ${RFValue(13)}px;
 `;
 
@@ -25,8 +25,8 @@ export const InputContainer = styled.View`
   flex-direction: row;
   align-items: center;
 
-  background: #FFFFFF;
-  border: 1px #e3e4e5;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px ${({ theme }) => theme.colors.border_white};
   padding: 0 20px;
   border-radius: 4px;
   height: ${RFValue(56)}px;
@@ -34,7 +34,7 @@ export const InputContainer = styled.View`
 `;
 
 export const FormInput = styled(TextInput)`
-  color: #3D434D;
+  color: ${({ theme }) => theme.colors.blue_gray};
   font-size: ${(RFValue(15))}px;
   flex: 1;
   height: 100%;
@@ -44,9 +44,9 @@ export const ToggleShowPassButton = styled.Pressable`
   margin-left: 20px;
 `;
 
-export const Icon = styled(Feather).attrs({
+export const Icon = styled(Feather).attrs(({ theme }) => ({
   size: 24,
-  color: '#888D97'
-})`
+  color: theme.colors.gray
+}))`
   opacity: 0.6;
 `;

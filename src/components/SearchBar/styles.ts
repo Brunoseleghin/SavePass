@@ -13,29 +13,29 @@ export const Container = styled.View`
 
 export const Input = styled(TextInput)`
   font-size: ${(RFValue(15))}px;
-  color: #3D434D;
-  font-family: 'Rubik_400Regular';
+  color: ${({ theme }) => theme.colors.blue_gray};
+  font-family: ${({ theme }) => theme.fonts.regular};
   font-size: 15px;
   flex: 1;
   padding: 0 20px;
-  background: #ffffff;
+  background: ${({ theme }) => theme.colors.white};
   
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-  border: 1px #e3e4e5;
+  border: 1px ${({ theme }) => theme.colors.border_white};
   border-right-width: 0;
 `;
 
 export const Button = styled.Pressable`
-  background: #FFCC00;
+  background: ${({ theme }) => theme.colors.secondary};
   padding: 16px;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   justify-content: center;
 `;
 
-export const Icon = styled(Feather).attrs({
+export const Icon = styled(Feather).attrs(({ theme }) => ({
   size: 24,
-  color: '#3D434D'
-})``;
+  color: theme.colors.blue_gray
+}))``;
 

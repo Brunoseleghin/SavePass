@@ -17,6 +17,8 @@ import {
 } from './styles';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+import { useTheme } from 'styled-components';
+
 interface HeaderProps {
   user?: {
     name: string;
@@ -35,6 +37,8 @@ type NavigationProps = StackNavigationProp<RootStackParamList>;
 export function Header({ user, title }: HeaderProps) {
   const { navigate, goBack } = useNavigation<NavigationProps>();
 
+  const theme = useTheme();
+
   function handleAddPass() {
     navigate('RegisterLoginData');
   }
@@ -45,10 +49,10 @@ export function Header({ user, title }: HeaderProps) {
       style={{
         ...(user
           ? {
-            backgroundColor: '#1967FB'
+            backgroundColor: theme.colors.primary
           }
           : {
-            backgroundColor: '#FFFFFF'
+            backgroundColor: theme.colors.white
           })
       }}
     >
@@ -71,7 +75,7 @@ export function Header({ user, title }: HeaderProps) {
           <AddButton onPress={handleAddPass}>
             <Icon
               name="plus"
-              color="#FFFFFF"
+              color={theme.colors.white}
               size={24}
             />
           </AddButton>
@@ -81,7 +85,7 @@ export function Header({ user, title }: HeaderProps) {
           <BackButton onPress={goBack}>
             <Icon
               name="chevron-left"
-              color="#1967FB"
+              color={theme.colors.primary}
               size={28}
             />
           </BackButton>

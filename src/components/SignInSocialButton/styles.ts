@@ -6,7 +6,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 export const Button = styled(RectButton)`
   height: ${RFValue(56)}px;
 
-  background-color: #FFCC00;
+  background-color: ${({ theme }) => theme.colors.secondary};
   border-radius: 5px;
 
   align-items: center;
@@ -21,7 +21,7 @@ export const ImageContainer = styled.View`
   align-items: center;
 
   padding: ${RFValue(16)}px;
-  border-color: #FFBC00;
+  border-color: ${({ theme }) => theme.colors.secondary};
   border-right-width: 1px;
 `;
 
@@ -29,7 +29,7 @@ export const Text = styled.Text`
   flex: 1;
   text-align: center;
 
-  font-family: 'Rubik_500Medium';
-  color: #3D434D;
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.blue_gray};
   font-size: ${RFValue(14)}px;
 `;

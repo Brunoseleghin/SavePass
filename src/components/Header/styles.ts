@@ -37,26 +37,26 @@ export const TextContainer = styled.View`
 export const HelloMessage = styled.Text`
   font-size: ${RFValue(20)}px;
   line-height: ${RFValue(26)}px;
-  font-family: 'Rubik_300Light';
-  color: #ffffff;
+  font-family: ${({theme}) => theme.fonts.light};
+  color: ${({ theme }) => theme.colors.white}
 `;
 
 export const BoldText = styled.Text`
   font-size: ${RFValue(20)}px;
   line-height: ${RFValue(26)}px;
-  font-family: 'Rubik_500Medium';
-  color: #ffffff;
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.white};
 `;
 
 export const SecondaryMessage = styled.Text`
   font-size: ${RFValue(13)}px;
-  font-family: 'Rubik_300Light';
-  color: #ffffff;
+  font-family: ${({theme}) => theme.fonts.light};
+  color: ${({ theme }) => theme.colors.white};
 `;
 
 export const AddButton = styled.Pressable`
   padding: ${RFValue(14.5)}px;
-  border: 1.5px #508bfc;
+  border: 1.5px ${({ theme }) => theme.colors.border_primary};
   border-radius: 4px;
 `;
 
@@ -70,7 +70,7 @@ export const BackButton = styled.Pressable`
 
 export const Title = styled.Text`
   font-size: ${RFValue(20)}px;
-  font-family: 'Rubik_500Medium';
-  color: #3D434D;
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.blue_gray};
   margin: auto;
 `;

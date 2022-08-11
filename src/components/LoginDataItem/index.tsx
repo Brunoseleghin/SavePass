@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTheme } from 'styled-components';
 
 import {
   Container,
@@ -33,6 +34,8 @@ export function LoginDataItem({
 }: Props) {
   const [passIsVisible, setPassIsVisible] = useState(false);
 
+  const theme = useTheme();
+
   function handleTogglePassIsVisible() {
     setPassIsVisible(!passIsVisible);
   }
@@ -41,9 +44,9 @@ export function LoginDataItem({
     <Container
       colors={[
         passIsVisible
-          ? '#EBF2FF'
-          : '#ffffff',
-        '#ffffff'
+          ? theme.colors.white_ice
+          : theme.colors.white,
+        theme.colors.white
       ]}
     >
       <ShowPasswordButton
@@ -51,7 +54,7 @@ export function LoginDataItem({
       >
         <Icon
           name={passIsVisible ? "eye" : "eye-off"}
-          color={passIsVisible ? '#1967FB' : '#888D97'}
+          color={passIsVisible ? theme.colors.primary : theme.colors.gray}
         />
       </ShowPasswordButton>
 
@@ -67,13 +70,13 @@ export function LoginDataItem({
               <EditButton
                 onPress={onPressEdit}
               >
-                <Icon name="edit" color="#888D97" />
+                <Icon name="edit" color={theme.colors.gray} />
               </EditButton>
 
               <RemoveButton
                 onPress={onPressRemove}
               >
-                <Icon name="trash" color="#888D97" />
+                <Icon name="trash" color={theme.colors.gray} />
               </RemoveButton>
             </WrapperButton>
           </Card>
@@ -89,13 +92,13 @@ export function LoginDataItem({
               <EditButton
                 onPress={onPressEdit}
               >
-                <Icon name="edit" color="#888D97" />
+                <Icon name="edit" color={theme.colors.gray} />
               </EditButton>
 
               <RemoveButton
                 onPress={onPressRemove}
               >
-                <Icon name="trash" color="#888D97" />
+                <Icon name="trash" color={theme.colors.gray} />
               </RemoveButton>
             </WrapperButton>
           </Card>
