@@ -2,6 +2,7 @@
   "expo": {
     "name": "savepass",
     "slug": "savepass",
+    "scheme": "savepass",
     "version": "1.0.0",
     "assetBundlePatterns": ["**/*"],
     "icon": "./assets/images/icon.png",
