@@ -21,7 +21,7 @@ export const ImageContainer = styled.View`
   align-items: center;
 
   padding: ${RFValue(16)}px;
-  border-color: ${({ theme }) => theme.colors.secondary};
+  border-color: ${({ theme }) => theme.colors.border_secondary};
   border-right-width: 1px;
 `;
 

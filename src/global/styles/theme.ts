@@ -10,6 +10,7 @@ export default {
     error: '#E83F5B',
     border_white: '#E3E4E5',
     border_primary: '#508BFC',
+    border_secondary: '#FFBC00'
   },
 
   fonts: {
