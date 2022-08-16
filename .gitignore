@@ -56,3 +56,6 @@ web-build/
 # Rocketseat platform
 yarn.lock
 package-lock.json
+
+# Environment
+.env
