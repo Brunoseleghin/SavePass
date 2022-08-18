@@ -19,15 +19,23 @@ import { SignInSocialButton } from '../../components/SignInSocialButton';
 import { useAuth } from '../../hooks/auth';
 
 export function SignIn() {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signInWithApple } = useAuth();
 
   async function handleSignInWithGoogle() {
     try {
       await signInWithGoogle();
-
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível conectar a conta Google');
+    }
+  }
+
+  async function handleSignInWithApple() {
+    try {
+      await signInWithApple();
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Não foi possível conectar a conta Apple');
     }
   }
 
@@ -38,15 +46,23 @@ export function SignIn() {
           <Logo source={LogoSavePass} />
 
           <Title>
-            Salve seus {'\n'}
-            logins de forma {'\n'}
+            Salve suas {'\n'}
+            contas de forma {'\n'}
             simples e segura
           </Title>
 
-          <SignInTitle>
-            Faça seu login com {'\n'}
-            uma das contas abaixo
-          </SignInTitle>
+          {Platform.OS === 'ios' ?
+            <SignInTitle>
+              Faça seu login com {'\n'}
+              uma das contas abaixo
+            </SignInTitle>
+            :
+            <SignInTitle>
+              Faça seu login com {'\n'}
+              uma conta Google
+            </SignInTitle>
+          }
+
         </TitleWrapper>
       </Header>
 
@@ -58,10 +74,11 @@ export function SignIn() {
             onPress={handleSignInWithGoogle}
           />
 
-          {/*Platform.OS === 'ios' &&*/
+          {Platform.OS === 'ios' &&
             <SignInSocialButton
               title='Entrar com Apple'
               svg={AppleSvg}
+              onPress={handleSignInWithApple}
             />
           }
         </FooterWrapper>
