@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StatusBar, View } from 'react-native';
+import { StatusBar, View, LogBox } from 'react-native';
 import {
-  useFonts,
   Rubik_300Light,
   Rubik_400Regular,
   Rubik_500Medium
@@ -16,6 +15,7 @@ import { AppRoutes } from './src/routes/app.routes';
 import { SignIn } from './src/screens/SignIn';
 import { AuthProvider } from './src/hooks/auth';
 import theme from './src/global/styles/theme';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const CustomStatusBar = (
   {
@@ -35,6 +35,8 @@ const CustomStatusBar = (
     </View>
   );
 }
+
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -75,14 +77,16 @@ export default function App() {
         flex: 1
       }}
     >
-      <NavigationContainer>
-        <CustomStatusBar backgroundColor={theme.colors.primary} />
-        <ThemeProvider theme={theme}>
-          <AuthProvider>
-            <SignIn />
-          </AuthProvider>
-        </ThemeProvider>
-      </NavigationContainer>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <CustomStatusBar backgroundColor={theme.colors.primary} />
+          <ThemeProvider theme={theme}>
+            <AuthProvider>
+              <SignIn />
+            </AuthProvider>
+          </ThemeProvider>
+        </NavigationContainer>
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }
