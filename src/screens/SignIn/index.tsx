@@ -1,5 +1,7 @@
-import React from 'react';
-import { Platform, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { Platform, Alert, ActivityIndicator } from 'react-native';
+import { useTheme } from 'styled-components';
+
 import {
   Container,
   TitleWrapper,
@@ -19,23 +21,30 @@ import { SignInSocialButton } from '../../components/SignInSocialButton';
 import { useAuth } from '../../hooks/auth';
 
 export function SignIn() {
+  const [isLoading, setIsLoading] = useState(false);
   const { signInWithGoogle, signInWithApple } = useAuth();
+
+  const theme = useTheme();
 
   async function handleSignInWithGoogle() {
     try {
-      await signInWithGoogle();
+      setIsLoading(true);
+      return await signInWithGoogle();
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível conectar a conta Google');
+      setIsLoading(false);
     }
   }
 
   async function handleSignInWithApple() {
     try {
-      await signInWithApple();
+      setIsLoading(true);
+      return await signInWithApple();
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível conectar a conta Apple');
+      setIsLoading(false);
     }
   }
 
@@ -82,6 +91,15 @@ export function SignIn() {
             />
           }
         </FooterWrapper>
+
+        {
+          isLoading &&
+          <ActivityIndicator
+            color={theme.colors.primary}
+            size="small"
+            style={{ marginTop: 15 }}
+          />
+        }
       </Footer>
     </Container>
   );
