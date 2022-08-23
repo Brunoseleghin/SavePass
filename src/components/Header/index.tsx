@@ -4,16 +4,19 @@ import { useNavigation } from '@react-navigation/native';
 
 import {
   Container,
+  WrapperUser,
   AboutUser,
   Avatar,
   TextContainer,
   HelloMessage,
   BoldText,
-  SecondaryMessage,
   AddButton,
   Icon,
   BackButton,
   Title,
+  WrapperLogout,
+  LogoutButton,
+  LogoutIcon
 } from './styles';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -22,9 +25,10 @@ import { useTheme } from 'styled-components';
 interface HeaderProps {
   user?: {
     name: string;
-    avatar_url: string;
+    avatar_url?: string;
   },
   title: string;
+  logout(): Promise<void>;
 }
 
 type RootStackParamList = {
@@ -34,7 +38,7 @@ type RootStackParamList = {
 
 type NavigationProps = StackNavigationProp<RootStackParamList>;
 
-export function Header({ user, title }: HeaderProps) {
+export function Header({ user, title, logout }: HeaderProps) {
   const { navigate, goBack } = useNavigation<NavigationProps>();
 
   const theme = useTheme();
@@ -58,27 +62,34 @@ export function Header({ user, title }: HeaderProps) {
     >
       {user ? (
         <>
-          <AboutUser>
-            <Avatar source={{ uri: user.avatar_url }} />
+          <WrapperLogout>
+            <LogoutButton
+              onPress={logout}
+            >
+              <LogoutIcon name="power" />
+            </LogoutButton>
+          </WrapperLogout>
 
-            <TextContainer>
-              <HelloMessage>
-                {title} <BoldText>{user.name}</BoldText>
-              </HelloMessage>
+          <WrapperUser>
+            <AboutUser>
+              <Avatar source={{ uri: user.avatar_url }} />
 
-              <SecondaryMessage>
-                Sinta-se seguro aqui
-              </SecondaryMessage>
-            </TextContainer>
-          </AboutUser>
+              <TextContainer>
+                <HelloMessage>
+                  {title} {'\n'}
+                  <BoldText>{user.name}</BoldText>
+                </HelloMessage>
+              </TextContainer>
+            </AboutUser>
 
-          <AddButton onPress={handleAddPass}>
-            <Icon
-              name="plus"
-              color={theme.colors.white}
-              size={24}
-            />
-          </AddButton>
+            <AddButton onPress={handleAddPass}>
+              <Icon
+                name="plus"
+                color={theme.colors.white}
+                size={24}
+              />
+            </AddButton>
+          </WrapperUser>
         </>
       ) : (
         <>
