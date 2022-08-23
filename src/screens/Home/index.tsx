@@ -15,6 +15,7 @@ import {
 } from './styles';
 
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useAuth } from '../../hooks/auth';
 
 interface LoginDataProps {
   id: string;
@@ -37,6 +38,8 @@ export function Home() {
   const [searchText, setSearchText] = useState('');
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
+
+  const { user, signOut } = useAuth();
 
   async function loadData() {
     const dataKey = '@savepass:logins';
@@ -91,9 +94,10 @@ export function Home() {
       <Header
         title='Olá,'
         user={{
-          name: 'Rocketseat',
-          avatar_url: 'https://i.ibb.co/ZmFHZDM/rocketseat.jpg'
+          name: user.name,
+          avatar_url: user.photo
         }}
+        logout={signOut}
       />
       <Container>
         <SearchBar
