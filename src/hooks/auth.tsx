@@ -1,6 +1,7 @@
 import React, {
   useContext,
   useState,
+  useEffect,
   createContext,
   ReactNode,
 } from 'react';
@@ -25,8 +26,10 @@ interface User {
 
 interface AuthContextData {
   user: User;
+  userStorageLoading: boolean;
   signInWithGoogle(): Promise<void>;
   signInWithApple(): Promise<void>;
+  signOut(): Promise<void>;
 }
 
 interface AuthorizationResponse {
@@ -40,6 +43,9 @@ const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
+  const [userStorageLoading, setUserStorageLoading] = useState(true);
+
+  const userStorageKey = '@savepass:user';
 
   async function signInWithGoogle() {
     try {
@@ -54,14 +60,17 @@ function AuthProvider({ children }: AuthProviderProps) {
         const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`);
         const userInfo = await response.json() as User;
 
+        const name = userInfo.name;
+        const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
+
         setUser({
           id: userInfo.id,
-          email: userInfo.email,
-          name: userInfo.name,
-          photo: userInfo.photo
+          email: userInfo.email!,
+          name: userInfo.name!,
+          photo: userInfo.photo ? userInfo.photo : photo
         });
 
-        await AsyncStorage.setItem('@savepass:user', JSON.stringify(userInfo));
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userInfo));
       }
     } catch (error) {
       throw new Error(error);
@@ -78,16 +87,18 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
 
       if (credential) {
+        const name = credential.fullName!.givenName!;
+        const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
         const userInfo = {
           id: credential.user,
           email: credential.email!,
-          name: credential.fullName!.givenName!,
-          photo: undefined
+          name,
+          photo
         } as User;
 
         setUser(userInfo);
 
-        await AsyncStorage.setItem('@savepass:user', JSON.stringify(userInfo));
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userInfo));
       }
 
     } catch (error) {
@@ -95,11 +106,33 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signOut() {
+    setUser({} as User);
+    await AsyncStorage.removeItem(userStorageKey);
+  }
+
+  useEffect(() => {
+    async function loadUserStorageData() {
+      const userStoraged = await AsyncStorage.getItem(userStorageKey);
+
+      if (userStoraged) {
+        const userLogged = JSON.parse(userStoraged) as User;
+        setUser(userLogged);
+      }
+
+      setUserStorageLoading(false);
+    }
+
+    loadUserStorageData();
+  }, []);
+
   return (
     <AuthContext.Provider value={{
       user,
+      userStorageLoading,
       signInWithGoogle,
-      signInWithApple
+      signInWithApple,
+      signOut
     }}>
       {children}
     </AuthContext.Provider>
