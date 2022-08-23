@@ -5,15 +5,13 @@ import {
   Rubik_400Regular,
   Rubik_500Medium
 } from '@expo-google-fonts/rubik';
-import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemeProvider } from 'styled-components';
 
-import { AppRoutes } from './src/routes/app.routes';
-import { SignIn } from './src/screens/SignIn';
-import { AuthProvider } from './src/hooks/auth';
+import { Routes } from './src/routes';
+import { AuthProvider, useAuth } from './src/hooks/auth';
 import theme from './src/global/styles/theme';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -41,6 +39,8 @@ LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
 
+  const { userStorageLoading } = useAuth();
+
   useEffect(() => {
     async function prepare() {
       try {
@@ -50,6 +50,7 @@ export default function App() {
           Rubik_400Regular,
           Rubik_500Medium
         });
+        await userStorageLoading;
       } catch (e) {
         console.warn(e);
       } finally {
@@ -78,14 +79,12 @@ export default function App() {
       }}
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavigationContainer>
-          <CustomStatusBar backgroundColor={theme.colors.primary} />
-          <ThemeProvider theme={theme}>
-            <AuthProvider>
-              <SignIn />
-            </AuthProvider>
-          </ThemeProvider>
-        </NavigationContainer>
+        <CustomStatusBar backgroundColor={theme.colors.primary} />
+        <ThemeProvider theme={theme}>
+          <AuthProvider>
+            <Routes />
+          </AuthProvider>
+        </ThemeProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
