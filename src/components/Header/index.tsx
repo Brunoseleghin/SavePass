@@ -28,7 +28,7 @@ interface HeaderProps {
     avatar_url?: string;
   },
   title: string;
-  logout(): Promise<void>;
+  logout?(): Promise<void>;
 }
 
 type RootStackParamList = {
