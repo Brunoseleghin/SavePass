@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RFValue } from 'react-native-responsive-fontsize';
 
+import { useAuth } from '../../hooks/auth';
 import { Container, Form } from './styles';
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
@@ -40,6 +41,7 @@ type RootStackParamList = {
 type NavigationProps = StackNavigationProp<RootStackParamList, 'EditLoginData'>;
 
 export function EditLoginData({ route }: RouteProps) {
+  const { user } = useAuth();
   const { navigate } = useNavigation<NavigationProps>();
   const {
     control,
@@ -63,7 +65,7 @@ export function EditLoginData({ route }: RouteProps) {
       ...formData
     }
 
-    const dataKey = '@savepass:logins';
+    const dataKey = `@savepass:logins_user:${user.id}`;
 
     try {
       const collection = await AsyncStorage.getItem(dataKey);

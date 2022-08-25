@@ -42,7 +42,7 @@ export function Home() {
   const { user, signOut } = useAuth();
 
   async function loadData() {
-    const dataKey = '@savepass:logins';
+    const dataKey = `@savepass:logins_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
 
     if (response !== null) {
@@ -73,7 +73,7 @@ export function Home() {
   }
 
   async function handleRemoveLoginData(id: string) {
-    const dataKey = '@savepass:logins';
+    const dataKey = `@savepass:logins_user:${user.id}`;
     const collectionFiltered = data.filter(data => data.id !== id);
 
     try {
