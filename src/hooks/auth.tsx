@@ -89,18 +89,52 @@ function AuthProvider({ children }: AuthProviderProps) {
       if (credential) {
         const name = credential.fullName!.givenName!;
         const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
-        const userInfo = {
-          id: credential.user,
-          email: credential.email!,
-          name,
-          photo
-        } as User;
 
-        setUser(userInfo);
+        if (credential.email !== null) {
+          const userInfo = {
+            id: credential.user,
+            email: credential.email!,
+            name,
+            photo
+          } as User;
 
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(userInfo));
+          setUser(userInfo);
+
+          await AsyncStorage.setItem(`@savepass:userid:${credential.user}`, JSON.stringify(userInfo));
+          await AsyncStorage.setItem(userStorageKey, JSON.stringify(userInfo));
+        } else {
+          const userStoraged = await AsyncStorage.getItem(`@savepass:userid:${credential.user}`);
+
+          if (userStoraged) {
+            const credentialsStoraged = JSON.parse(userStoraged) as User;
+
+            const name = credentialsStoraged.name;
+            const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
+
+            const userInfo = {
+              id: credentialsStoraged.id,
+              email: credentialsStoraged.email!,
+              name,
+              photo
+            } as User;
+
+            setUser(userInfo);
+
+            await AsyncStorage.setItem(userStorageKey, JSON.stringify(userInfo));
+          } else {
+            const userInfo = {
+              id: credential.user,
+              email: credential.email!,
+              name,
+              photo
+            } as User;
+
+            setUser(userInfo);
+
+            await AsyncStorage.setItem(userStorageKey, JSON.stringify(userInfo));
+          }
+        }
       }
-
     } catch (error) {
       throw new Error(error);
     }
