@@ -58,7 +58,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
       if (type === 'success') {
         const response = await fetch(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`);
-        const userInfo = await response.json() as User;
+        const userInfo = await response.json();
 
         const name = userInfo.name;
         const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
@@ -66,8 +66,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         setUser({
           id: userInfo.id,
           email: userInfo.email!,
-          name: userInfo.name!,
-          photo: userInfo.photo ? userInfo.photo : photo
+          name,
+          photo: userInfo.picture ? userInfo.picture : photo
         });
 
         await AsyncStorage.setItem(userStorageKey, JSON.stringify(userInfo));
@@ -106,7 +106,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           const userStoraged = await AsyncStorage.getItem(`@savepass:userid:${credential.user}`);
 
           if (userStoraged) {
-            const credentialsStoraged = JSON.parse(userStoraged) as User;
+            const credentialsStoraged = JSON.parse(userStoraged);
 
             const name = credentialsStoraged.name;
             const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
@@ -150,8 +150,19 @@ function AuthProvider({ children }: AuthProviderProps) {
       const userStoraged = await AsyncStorage.getItem(userStorageKey);
 
       if (userStoraged) {
-        const userLogged = JSON.parse(userStoraged) as User;
-        setUser(userLogged);
+        const userLogged = JSON.parse(userStoraged);
+
+        const name = userLogged.name;
+        const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
+
+        const userInfo = {
+          id: userLogged.id,
+          email: userLogged.email!,
+          name: userLogged.name!,
+          photo: userLogged.picture! ? userLogged.picture : photo
+        } as User;
+
+        setUser(userInfo);
       }
 
       setUserStorageLoading(false);
